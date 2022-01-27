@@ -21,7 +21,7 @@ public class ToDoItemRepository : IToDoItemRepository
     public async Task<IReadOnlyCollection<ToDoItem>> GetAllAsync()
     {
         return await _context.Set<ToDoItem>()
-            .OrderByDescending(x => x.LastModifiedDate)
+            .OrderBy(x => x.LastModifiedDate)
             .ToListAsync();
     }
 

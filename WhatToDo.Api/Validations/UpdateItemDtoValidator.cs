@@ -21,7 +21,8 @@ namespace WhatToDo.Api.Validations
 
         private async Task<bool> HasDuplicateValue(string description)
         {
-            return await _repository.IsDuplicateAsync(description);
+            var result = await _repository.IsDuplicateAsync(description);
+            return !result;
         }
     }
 }

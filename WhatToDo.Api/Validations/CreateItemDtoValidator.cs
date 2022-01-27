@@ -16,7 +16,7 @@ namespace WhatToDo.Api.Validations
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description cannot be empty")
                 .Length(2, 200).WithMessage("Description should be between 2 and 200 characters")
-                .MustAsync((x, cancellation) => IsNotDuplicate(x)).WithMessage("This item already exists.");
+                .MustAsync((o, cancellation) => IsNotDuplicate(o)).WithMessage("This item already exists.");
         }
 
         private async Task<bool> IsNotDuplicate(string description)
