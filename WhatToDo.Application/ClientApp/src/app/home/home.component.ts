@@ -16,15 +16,17 @@ export class HomeComponent implements OnInit {
   inCompletedTasks: ToDo[] = [];
   inputValue: string = "";
   createItemObj: CreateItem = new CreateItem("");
+  isDuplicate: boolean = false;
 
   constructor(private toDoService: ToDoService) {
   }
 
   ngOnInit(): void {
-    this.getAd();
+    this.getAds();
   }
 
-  getAd = () => {
+  getAds = () => {
+    this.isDuplicate = false;
     this.toDoService.getItems().subscribe(response => {
       this.allItems = response,
         this.completedTasks = this.allItems.filter(x => x.isCompleted),
@@ -32,22 +34,41 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  create = () => {
-    this.toDoService.createItem(this.createItemObj).subscribe(result => {
-      this.getAd();
-    }), console.error();
+  create = () => {  
+    if (this.isValidDescription()) {
+      console.log('comee', this.createItemObj.description);
+      
+      this.toDoService.createItem(this.createItemObj).subscribe(result => {
+        this.createItemObj.description = '',
+          this.getAds();
+      }), console.error();
+    }
   }
 
   onDelete = (id: number) => {
     this.toDoService.deleteItem(id).subscribe(result => {
-      this.getAd();
+      this.getAds();
     }), console.error();
   }
 
   onComplete = (updateItem: UpdateItem) => {
     this.toDoService.updateItem(updateItem).subscribe(result => {
-      this.getAd();
+      this.getAds();
     }), console.error();
+  }
+
+  isValidDescription = () => {
+    this.isDuplicate = false;
+    this.isDescriptionDuplicate();
+    if(!this.isDuplicate && this.createItemObj.description && this.createItemObj.description.trim()) return true;
+    return false;
+  }
+
+  isDescriptionDuplicate = (): void => {
+    const result = this.inCompletedTasks
+    .some(el => el.description.toUpperCase() === this.createItemObj.description.toUpperCase());
+
+    if (result) this.isDuplicate = true;
   }
 }
 
