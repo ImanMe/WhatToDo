@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-6">
+      <div class="input-group mb-3">
+        <input type="text" class="form-control" [(ngModel)]="createItemObj.description">
+        <span class="input-group-text" id="basic-addon2" (click)="create()">ADD NEW</span>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <app-to-do [items]="inCompletedTasks" [listTitle]="toDoList" (deleteItem)="onDelete($event)"
+        (completeItem)="onComplete($event)"></app-to-do>
+    </div>
+    <div class="col-md-6">
+      <app-to-do [items]="completedTasks" [listTitle]="completedList" (deleteItem)="onDelete($event)"></app-to-do>
+    </div>
+  </div>
+</div>
