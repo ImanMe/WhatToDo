@@ -25,14 +25,18 @@ export class EditItemComponent implements OnInit {
   getItem = (id: number) => {
     this.toDoService.getItem(id).subscribe(result => {
       this.item = result,
-      this.isDataLoaded = true;
+        this.isDataLoaded = true;
+    }, error => {
+      console.log(error);
     });
   }
 
   onSave = () => {
     let updatedItem = new UpdateItem(this.item.id, this.item.description, false);
-    this.toDoService.updateItem(updatedItem).subscribe(result => {      
-        this.router.navigate(['/']);
+    this.toDoService.updateItem(updatedItem).subscribe(result => {
+      this.router.navigate(['/']);
+    }, error => {
+      console.log(error);
     })
   }
 

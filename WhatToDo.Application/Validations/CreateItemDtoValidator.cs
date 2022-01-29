@@ -15,7 +15,7 @@ namespace WhatToDo.Application.Validations
 
             RuleFor(x => x.Description)
                 .NotEmpty().WithMessage("Description cannot be empty")
-                .Length(2, 200).WithMessage("Description should be between 2 and 200 characters")
+                .Length(1, 200).WithMessage("Description should be between 2 and 200 characters")
                 .MustAsync((o, cancellation) => IsNotDuplicate(o)).WithMessage("This item already exists.");
         }
 

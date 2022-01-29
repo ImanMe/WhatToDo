@@ -62,6 +62,9 @@ public class ItemsController : BaseApiController
         if (itemToBeUpdated == null)
             return BadRequest(new ApiResponse(400, "Item you attempted to edit doesn't exist"));
 
+        if (itemToBeUpdated.Description == itemDto.Description && itemToBeUpdated.IsCompleted == itemDto.IsCompleted)
+            return BadRequest(new ApiResponse(400, "Your update should result in duplicate entries"));
+
         itemToBeUpdated.Description = itemDto.Description;
         itemToBeUpdated.IsCompleted = itemDto.IsCompleted;
 

@@ -1,6 +1,5 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using WhatToDo.Application;
 using WhatToDo.Application.Dtos;
@@ -17,6 +16,7 @@ builder.Services.AddControllers().AddFluentValidation();
 builder.Services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
 
 builder.Services.AddTransient<IValidator<CreateItemDto>, CreateItemDtoValidator>();
+builder.Services.AddTransient<IValidator<UpdateItemDto>, UpdateItemDtoValidator>();
 
 builder.Services.AddDbContext<WhatToDoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WhatToDoConnection")));
@@ -55,13 +55,6 @@ if (!env.IsDevelopment()) app.UseSpaStaticFiles();
 
 app.MapControllers();
 
-app.MapFallbackToFile("index.html"); ;
-
-//app.UseSpa(spa =>
-//{
-//    spa.Options.SourcePath = "ClientApp";
-
-//    if (env.IsDevelopment()) spa.UseAngularCliServer("start");
-//});
+app.MapFallbackToFile("index.html");
 
 await app.RunAsync();

@@ -37,14 +37,16 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  create = () => {  
-    if (this.isValidDescription()) {      
-      this.isDataLoaded = false;      
+  create = () => {
+    if (this.isValidDescription()) {
+      this.isDataLoaded = false;
       this.toDoService.createItem(this.createItemObj).subscribe(result => {
         this.createItemObj.description = '',
           this.getAds(),
           this.isDataLoaded = true;
-      }), console.error();
+      }, error => {
+        console.log(error);
+      });
     }
   }
 
@@ -52,28 +54,32 @@ export class HomeComponent implements OnInit {
     this.isDataLoaded = false;
     this.toDoService.deleteItem(id).subscribe(result => {
       this.getAds(),
-      this.isDataLoaded = true;
-    }), console.error();
+        this.isDataLoaded = true;
+    }, error => {
+      console.log(error);
+    });
   }
 
   onComplete = (updateItem: UpdateItem) => {
     this.isDataLoaded = false;
     this.toDoService.updateItem(updateItem).subscribe(result => {
       this.getAds(),
-      this.isDataLoaded = true;
-    }), console.error();
+        this.isDataLoaded = true;
+    }, error => {
+      console.log(error);
+    });
   }
 
   isValidDescription = () => {
     this.isDuplicate = false;
     this.isDescriptionDuplicate();
-    if(!this.isDuplicate && this.createItemObj.description && this.createItemObj.description.trim()) return true;
+    if (!this.isDuplicate && this.createItemObj.description && this.createItemObj.description.trim()) return true;
     return false;
   }
 
   isDescriptionDuplicate = (): void => {
     const result = this.inCompletedTasks
-    .some(el => el.description.toUpperCase() === this.createItemObj.description.toUpperCase());
+      .some(el => el.description.toUpperCase() === this.createItemObj.description.toUpperCase());
 
     if (result) this.isDuplicate = true;
   }
