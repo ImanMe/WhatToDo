@@ -1,20 +1,8 @@
-using FluentValidation;
-using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using WhatToDo.Application;
-using WhatToDo.Application.Dtos;
-using WhatToDo.Application.Middleware;
-using WhatToDo.Application.Validations;
-using WhatToDo.Persistence;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers().AddFluentValidation();
 
 builder.Services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/dist"; });
-
-builder.Services.AddTransient<IValidator<CreateItemDto>, CreateItemDtoValidator>();
-builder.Services.AddTransient<IValidator<UpdateItemDto>, UpdateItemDtoValidator>();
 
 builder.Services.AddDbContext<WhatToDoContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("WhatToDoConnection")));
