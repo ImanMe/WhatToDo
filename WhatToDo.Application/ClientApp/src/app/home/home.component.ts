@@ -17,6 +17,7 @@ export class HomeComponent implements OnInit {
   inputValue: string = "";
   createItemObj: CreateItem = new CreateItem("");
   isDuplicate: boolean = false;
+  isDataLoaded = false;
 
   constructor(private toDoService: ToDoService) {
   }
@@ -27,33 +28,39 @@ export class HomeComponent implements OnInit {
 
   getAds = () => {
     this.isDuplicate = false;
+    this.isDataLoaded = false;
     this.toDoService.getItems().subscribe(response => {
       this.allItems = response,
         this.completedTasks = this.allItems.filter(x => x.isCompleted),
-        this.inCompletedTasks = this.allItems.filter(x => !x.isCompleted);
+        this.inCompletedTasks = this.allItems.filter(x => !x.isCompleted),
+        this.isDataLoaded = true;
     });
   }
 
   create = () => {  
-    if (this.isValidDescription()) {
-      console.log('comee', this.createItemObj.description);
-      
+    if (this.isValidDescription()) {      
+      this.isDataLoaded = false;      
       this.toDoService.createItem(this.createItemObj).subscribe(result => {
         this.createItemObj.description = '',
-          this.getAds();
+          this.getAds(),
+          this.isDataLoaded = true;
       }), console.error();
     }
   }
 
   onDelete = (id: number) => {
+    this.isDataLoaded = false;
     this.toDoService.deleteItem(id).subscribe(result => {
-      this.getAds();
+      this.getAds(),
+      this.isDataLoaded = true;
     }), console.error();
   }
 
   onComplete = (updateItem: UpdateItem) => {
+    this.isDataLoaded = false;
     this.toDoService.updateItem(updateItem).subscribe(result => {
-      this.getAds();
+      this.getAds(),
+      this.isDataLoaded = true;
     }), console.error();
   }
 

@@ -14,6 +14,7 @@ export class EditItemComponent implements OnInit {
   constructor(private toDoService: ToDoService, private route: ActivatedRoute, private router: Router) { }
   item: ToDo = new ToDo();
   updatedItem: UpdateItem = new UpdateItem();
+  isDataLoaded = false;
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -23,7 +24,8 @@ export class EditItemComponent implements OnInit {
 
   getItem = (id: number) => {
     this.toDoService.getItem(id).subscribe(result => {
-      this.item = result;
+      this.item = result,
+      this.isDataLoaded = true;
     });
   }
 

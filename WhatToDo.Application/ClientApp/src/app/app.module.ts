@@ -8,6 +8,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ToDoComponent } from './to-do/to-do.component';
 import { EditItemComponent } from './edit-item/edit-item.component';
+import { SpinnerComponent } from './spinner/spinner.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { EditItemComponent } from './edit-item/edit-item.component';
     NavMenuComponent,
     HomeComponent,
     ToDoComponent,
-    EditItemComponent
+    EditItemComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

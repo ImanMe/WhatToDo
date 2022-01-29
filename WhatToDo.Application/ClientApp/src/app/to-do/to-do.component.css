@@ -2,3 +2,8 @@
     background-color: #008080;
     border-color    : #008080;
 }
+
+.description-text{
+    word-wrap: break-word;
+    width: 68%;
+}
