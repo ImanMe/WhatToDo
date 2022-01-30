@@ -1,10 +1,13 @@
-using FluentValidation.AspNetCore;
-using Microsoft.EntityFrameworkCore;
-using WhatToDo.Api;
-using WhatToDo.Api.Middleware;
-using WhatToDo.Persistence;
-
 var builder = WebApplication.CreateBuilder(args);
+
+const string toDoCorsPolicy = "_toDoCorsPolicy";
+
+builder.Services.AddCors(options =>
+{
+    // TODO: Limit CORS to specific client URL 
+    options.AddPolicy(toDoCorsPolicy,
+        o => { o.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader(); });
+});
 
 builder.Services.AddControllers().AddFluentValidation();
 
@@ -20,6 +23,8 @@ builder.Services.AddApiServices();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(toDoCorsPolicy);
 
 var env = builder.Environment;
 
@@ -43,6 +48,7 @@ app.UseHttpsRedirection();
 
 app.MapControllers();
 
+// Migrate database at runtime
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var loggerFactory = services.GetRequiredService<ILoggerFactory>();
